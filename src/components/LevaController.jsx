@@ -5,7 +5,7 @@ import { useControls } from "leva";
 const LevaController = () => {
     const { xRotation, args } = useControls({
         xRotation: {
-            value: 0,
+            value: 80,
             min: 0,
             max: 360,
         },
@@ -19,7 +19,7 @@ const LevaController = () => {
     console.log(args);
     return (
         <mesh rotation={[-angle(xRotation), 0, 0]}>
-            <planeGeometry args={[args.width, args.height, args.wSegment, args.hSegment]} />
+            <planeGeometry args={[args?.width, args?.height, args?.wSegment, args?.hSegment]} />
             <meshBasicMaterial
                 color={"#00ffff"}
                 side={DoubleSide}

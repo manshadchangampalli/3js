@@ -1,5 +1,6 @@
-import Environmental from "./components/Enviromentals";
-import Model from "./components/Model";
+import { CubeCamera } from "@react-three/drei";
+import Environment from "./components/Environment";
+import LevaController from "./components/LevaController";
 import OrbitController from "./components/OrbitController";
 
 const Scene = () => {
@@ -12,10 +13,22 @@ const Scene = () => {
             {/* <CustomGeoMetric /> */}
             {/* <Texture /> */}
             {/* <Particles /> */}
-            <Model />
-            <Environmental />
+            {/* <Model /> */}
+            <Environment />
+            <LevaController />
             <OrbitController />
-            <ambientLight intensity={2} color={'white'} />
+            <CubeCamera>
+                {(texture) => (
+                    <mesh>
+                        <sphereGeometry />
+                        <meshStandardMaterial envMap={texture} />
+                    </mesh>
+                )}
+            </CubeCamera>
+            <ambientLight
+                intensity={2}
+                color={"white"}
+            />
         </>
     );
 };
