@@ -1,7 +1,8 @@
-import { CubeCamera } from "@react-three/drei";
-import Environment from "./components/Environment";
+import { Grid, PerspectiveCamera } from "@react-three/drei";
 import LevaController from "./components/LevaController";
 import OrbitController from "./components/OrbitController";
+import GridHelper from "./components/Grid";
+import CameraControl from "./components/CameraControls";
 
 const Scene = () => {
     return (
@@ -14,17 +15,20 @@ const Scene = () => {
             {/* <Texture /> */}
             {/* <Particles /> */}
             {/* <Model /> */}
-            <Environment />
+            {/* <Environment /> */}
+            <CameraControl />
+            <PerspectiveCamera makeDefault position={[0, 2, 5]} />
+            <GridHelper />
             <LevaController />
             <OrbitController />
-            <CubeCamera>
+            {/* <CubeCamera>
                 {(texture) => (
                     <mesh>
                         <sphereGeometry />
                         <meshStandardMaterial envMap={texture} />
                     </mesh>
                 )}
-            </CubeCamera>
+            </CubeCamera> */}
             <ambientLight
                 intensity={2}
                 color={"white"}

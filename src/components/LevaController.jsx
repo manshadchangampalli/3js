@@ -5,7 +5,7 @@ import { useControls } from "leva";
 const LevaController = () => {
     const { xRotation, args } = useControls({
         xRotation: {
-            value: 80,
+            value: 90,
             min: 0,
             max: 360,
         },
