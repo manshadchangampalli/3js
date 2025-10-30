@@ -2,6 +2,9 @@ import { CubeCamera } from "@react-three/drei";
 import Environment from "./components/Environment";
 import LevaController from "./components/LevaController";
 import OrbitController from "./components/OrbitController";
+import PresentationControl from "./components/PresentationControll";
+import { DirectionalLight } from "three";
+import FaceControlComponent from "./components/FaceControl";
 
 const Scene = () => {
     return (
@@ -14,17 +17,23 @@ const Scene = () => {
             {/* <Texture /> */}
             {/* <Particles /> */}
             {/* <Model /> */}
-            <Environment />
-            <LevaController />
-            <OrbitController />
-            <CubeCamera>
+            {/* <Environment /> */}
+            <FaceControlComponent />
+            {/* <PresentationControl /> */}
+            {/* <LevaController /> */}
+            {/* <OrbitController /> */}
+            {/* <CubeCamera>
                 {(texture) => (
                     <mesh>
                         <sphereGeometry />
                         <meshStandardMaterial envMap={texture} />
                     </mesh>
                 )}
-            </CubeCamera>
+            </CubeCamera> */}
+            <directionalLight
+                intensity={2}
+                color={"#ffffff"}
+            />
             <ambientLight
                 intensity={2}
                 color={"white"}
