@@ -1,5 +1,4 @@
-import { CubeCamera } from "@react-three/drei";
-import Environment from "./components/Environment";
+import { Grid, PerspectiveCamera } from "@react-three/drei";
 import LevaController from "./components/LevaController";
 import OrbitController from "./components/OrbitController";
 import PresentationControl from "./components/PresentationControll";
