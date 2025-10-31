@@ -4,6 +4,7 @@ import OrbitController from "./components/OrbitController";
 import PresentationControl from "./components/PresentationControll";
 import { DirectionalLight } from "three";
 import FaceControlComponent from "./components/FaceControl";
+import Scroll from "./components/Scroll";
 
 const Scene = () => {
     return (
@@ -17,7 +18,8 @@ const Scene = () => {
             {/* <Particles /> */}
             {/* <Model /> */}
             {/* <Environment /> */}
-            <FaceControlComponent />
+            {/* <FaceControlComponent /> */}
+            <Scroll />
             {/* <PresentationControl /> */}
             {/* <LevaController /> */}
             {/* <OrbitController /> */}
