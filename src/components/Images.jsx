@@ -10,7 +10,9 @@ const Images = () => {
     const scroll = useScroll();
 
     useFrame(() => {
-        console.log(scroll.range(0,1/3))
+        if (groupRef?.current) {
+            groupRef.current.children[0].material.zoom = (1 + (scroll.range(0, 1 / 3)));
+        }
     });
     return (
         <group ref={groupRef}>
@@ -20,7 +22,8 @@ const Images = () => {
                 url="./images/1.jpg"
             />
             <Image
-                position={[0, -height, 0]}
+                position={[-width / 4, -height, 0]}
+                scale={[width / 4, height]}
                 url="./images/2.jpg"
             />
             <Image
