@@ -10,6 +10,7 @@ import TransformControllerComponent from "./components/TransformControllerCompon
 import TextComponent from "./components/TextComponent";
 import TextThreeD from "./components/TextThreeD";
 import Sound from "./components/sound";
+import Shaders from "./components/Shaders";
 
 const Scene = () => {
     return (
@@ -28,11 +29,12 @@ const Scene = () => {
             {/* <PresentationControl /> */}
             {/* <LevaController /> */}
             <OrbitController />
+            <Shaders />
             {/* <PivotControlComponent /> */}
             {/* <TransformControllerComponent /> */}
             {/* <TextComponent /> */}
             {/* <TextThreeD /> */}
-            <Sound />
+            {/* <Sound /> */}
             {/* <CubeCamera>
                 {(texture) => (
                     <mesh>
