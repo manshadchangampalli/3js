@@ -5,6 +5,11 @@ import PresentationControl from "./components/PresentationControll";
 import { DirectionalLight } from "three";
 import FaceControlComponent from "./components/FaceControl";
 import Scroll from "./components/Scroll";
+import PivotControlComponent from "./components/PivotControl";
+import TransformControllerComponent from "./components/TransformControllerComponent";
+import TextComponent from "./components/TextComponent";
+import TextThreeD from "./components/TextThreeD";
+import Sound from "./components/sound";
 
 const Scene = () => {
     return (
@@ -19,10 +24,15 @@ const Scene = () => {
             {/* <Model /> */}
             {/* <Environment /> */}
             {/* <FaceControlComponent /> */}
-            <Scroll />
+            {/* <Scroll /> */}
             {/* <PresentationControl /> */}
             {/* <LevaController /> */}
-            {/* <OrbitController /> */}
+            <OrbitController />
+            {/* <PivotControlComponent /> */}
+            {/* <TransformControllerComponent /> */}
+            {/* <TextComponent /> */}
+            {/* <TextThreeD /> */}
+            <Sound />
             {/* <CubeCamera>
                 {(texture) => (
                     <mesh>
