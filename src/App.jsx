@@ -7,9 +7,9 @@ function App() {
   return (
     <main>
       <Canvas shadows>
-        <Fisheye>
-          <Scene />
-        </Fisheye>
+        {/* <Fisheye> */}
+        <Scene />
+        {/* </Fisheye> */}
       </Canvas>
     </main>
   );

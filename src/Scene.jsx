@@ -11,6 +11,7 @@ import TextComponent from "./components/TextComponent";
 import TextThreeD from "./components/TextThreeD";
 import Sound from "./components/sound";
 import Shaders from "./components/Shaders";
+import MeshPortalMaterials from "./components/MeshPortalMaterials";
 
 const Scene = () => {
     return (
@@ -28,8 +29,9 @@ const Scene = () => {
             {/* <Scroll /> */}
             {/* <PresentationControl /> */}
             {/* <LevaController /> */}
-            <OrbitController />
-            <Shaders />
+            {/* <OrbitController /> */}
+            {/* <Shaders /> */}
+            <MeshPortalMaterials />
             {/* <PivotControlComponent /> */}
             {/* <TransformControllerComponent /> */}
             {/* <TextComponent /> */}
