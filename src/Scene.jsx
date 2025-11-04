@@ -12,6 +12,8 @@ import TextThreeD from "./components/TextThreeD";
 import Sound from "./components/sound";
 import Shaders from "./components/Shaders";
 import MeshPortalMaterials from "./components/MeshPortalMaterials";
+import Gradient from "./components/gradient";
+import LightHelper from "./components/lightHelper";
 
 const Scene = () => {
     return (
@@ -31,7 +33,9 @@ const Scene = () => {
             {/* <LevaController /> */}
             {/* <OrbitController /> */}
             {/* <Shaders /> */}
-            <MeshPortalMaterials />
+            {/* <MeshPortalMaterials /> */}
+            {/* <Gradient /> */}
+            <LightHelper />
             {/* <PivotControlComponent /> */}
             {/* <TransformControllerComponent /> */}
             {/* <TextComponent /> */}
@@ -45,14 +49,14 @@ const Scene = () => {
                     </mesh>
                 )}
             </CubeCamera> */}
-            <directionalLight
+            {/* <directionalLight
                 intensity={2}
                 color={"#ffffff"}
             />
             <ambientLight
                 intensity={2}
                 color={"white"}
-            />
+            /> */}
         </>
     );
 };
