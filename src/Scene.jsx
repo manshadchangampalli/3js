@@ -16,6 +16,7 @@ import Gradient from "./components/gradient";
 import LightHelper from "./components/lightHelper";
 import CylinderGeoMetry from "./components/cylinderGeoMetry";
 import InfiniteImageGallery from "./components/infiniteImageGallery";
+import Effects from "./components/Effects";
 
 const Scene = () => {
     return (
@@ -40,7 +41,8 @@ const Scene = () => {
             {/* <LightHelper /> */}
             {/* <CylinderGeoMetry /> */}
             <InfiniteImageGallery />
-            <gridHelper />
+            {/* <gridHelper /> */}
+            <Effects />
             {/* <PivotControlComponent /> */}
             {/* <TransformControllerComponent /> */}
             {/* <TextComponent /> */}
