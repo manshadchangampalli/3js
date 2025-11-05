@@ -1,33 +1,46 @@
-import { CameraControls, PerspectiveCamera, useHelper } from "@react-three/drei";
+import { CameraControls, Environment, useHelper } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 import { angle } from "../../helper";
 
 const LightHelper = () => {
-    const ref = useRef();
-    const cameraRef = useRef()
-    useHelper(ref, THREE.DirectionalLightHelper, 1, "hotpink");
-    useHelper(cameraRef, THREE.CameraHelper, 1, 'hotpink')
+    const lightRef = useRef();
+
+    useHelper(lightRef, THREE.DirectionalLightHelper, 1, "hotpink");
+
     return (
         <>
             <axesHelper />
             <directionalLight
-                // position={[2, 2, 0]}
-                ref={ref}
+                castShadow
+                ref={lightRef}
                 intensity={2}
-                color={"white"}
+                color="white"
+                position={[1, 2, 0]}
             />
-            <ambientLight />
-            <mesh>
+            <ambientLight intensity={0.5} />
+
+            <mesh castShadow>
                 <boxGeometry />
-                <meshStandardMaterial />
+                <meshStandardMaterial color="orange" />
             </mesh>
-            <mesh>
+
+            <mesh receiveShadow rotation={[angle(90), 0, 0]} position={[0, -3 / 4, 0]}>
                 <planeGeometry args={[3, 3]} />
-                <meshBasicMaterial color={'white'} side={THREE.DoubleSide} />
+                <meshStandardMaterial
+                    color="gray"
+                    side={THREE.DoubleSide}
+                />
             </mesh>
-            <PerspectiveCamera args={[75, window.innerWidth / window.innerHeight]} ref={cameraRef} />
-            <CameraControls />
+            <CameraControls
+                makeDefault
+                polarAngle={angle(70)}
+            // polarAngle={angle(170)}
+            // target={[0, 0, 0]} // Look at center
+            // polarAngle={angle(30)} // 70° down from horizontal          // No horizontal offset
+            // distance={10}
+            />
+            <Environment preset="sunset" />
         </>
     );
 };

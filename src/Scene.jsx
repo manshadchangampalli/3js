@@ -14,6 +14,8 @@ import Shaders from "./components/Shaders";
 import MeshPortalMaterials from "./components/MeshPortalMaterials";
 import Gradient from "./components/gradient";
 import LightHelper from "./components/lightHelper";
+import CylinderGeoMetry from "./components/cylinderGeoMetry";
+import InfiniteImageGallery from "./components/infiniteImageGallery";
 
 const Scene = () => {
     return (
@@ -31,11 +33,14 @@ const Scene = () => {
             {/* <Scroll /> */}
             {/* <PresentationControl /> */}
             {/* <LevaController /> */}
-            {/* <OrbitController /> */}
+            <OrbitController />
             {/* <Shaders /> */}
             {/* <MeshPortalMaterials /> */}
             {/* <Gradient /> */}
-            <LightHelper />
+            {/* <LightHelper /> */}
+            {/* <CylinderGeoMetry /> */}
+            <InfiniteImageGallery />
+            <gridHelper />
             {/* <PivotControlComponent /> */}
             {/* <TransformControllerComponent /> */}
             {/* <TextComponent /> */}
@@ -49,14 +54,14 @@ const Scene = () => {
                     </mesh>
                 )}
             </CubeCamera> */}
-            {/* <directionalLight
+            <directionalLight
                 intensity={2}
                 color={"#ffffff"}
             />
             <ambientLight
                 intensity={2}
                 color={"white"}
-            /> */}
+            />
         </>
     );
 };
