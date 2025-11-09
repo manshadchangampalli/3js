@@ -17,6 +17,8 @@ import LightHelper from "./components/lightHelper";
 import CylinderGeoMetry from "./components/cylinderGeoMetry";
 import InfiniteImageGallery from "./components/infiniteImageGallery";
 import Effects from "./components/Effects";
+import ImageAtlas from "./components/imageAtlas";
+import AnimatedPlane from "./components/shaders/lesson1/Shader";
 
 const Scene = () => {
     return (
@@ -34,15 +36,17 @@ const Scene = () => {
             {/* <Scroll /> */}
             {/* <PresentationControl /> */}
             {/* <LevaController /> */}
-            <OrbitController />
+            {/* <OrbitController /> */}
             {/* <Shaders /> */}
             {/* <MeshPortalMaterials /> */}
             {/* <Gradient /> */}
             {/* <LightHelper /> */}
             {/* <CylinderGeoMetry /> */}
-            <InfiniteImageGallery />
+            {/* <InfiniteImageGallery /> */}
+            {/* <ImageAtlas /> */}
+            <AnimatedPlane />
             {/* <gridHelper /> */}
-            <Effects />
+            {/* <Effects /> */}
             {/* <PivotControlComponent /> */}
             {/* <TransformControllerComponent /> */}
             {/* <TextComponent /> */}

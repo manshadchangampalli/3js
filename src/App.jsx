@@ -6,14 +6,14 @@ import ImageGallery from "./components/infiniteImageGallery";
 
 function App() {
   return (
-    // <main>
-    //   <Canvas shadows>
-    //     {/* <Fisheye> */}
-    //     <Scene />
-    //     {/* </Fisheye> */}
-    //   </Canvas>
-    // </main>
-    <ImageGallery />
+    <main>
+      <Canvas shadows>
+        {/* <Fisheye> */}
+        <Scene />
+        {/* </Fisheye> */}
+      </Canvas>
+    </main>
+    // <ImageGallery />
   );
 }
 

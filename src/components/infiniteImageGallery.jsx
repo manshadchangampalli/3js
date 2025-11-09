@@ -5,7 +5,7 @@ import { EffectComposer, ChromaticAberration, Vignette } from '@react-three/post
 import { BlendFunction } from 'postprocessing';
 import * as THREE from 'three';
 
-// 20 Sample images with names
+// Small dataset: image URLs + display names for the atlas
 const PROJECTS = [
     { url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&h=800&fit=crop', name: 'Abstract Art' },
     { url: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=600&h=800&fit=crop', name: 'Digital Wave' },
@@ -29,6 +29,7 @@ const PROJECTS = [
     { url: 'https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=600&h=800&fit=crop', name: 'Star Trail' },
 ];
 
+// Vertex shader: pass UVs to fragment shader
 const vertexShader = `
   varying vec2 vUv;
   
@@ -38,6 +39,11 @@ const vertexShader = `
   }
 `;
 
+// Fragment shader: renders an infinite, tiled gallery using an image atlas + text atlas.
+// - uOffset moves the grid
+// - uZoom scales the world
+// - uCellSize controls the size of each cell in world units
+// - uImageAtlas / uTextAtlas contain pre-baked textures drawn on canvas
 const fragmentShader = `
   uniform vec2 uOffset;
   uniform vec2 uResolution;
@@ -56,12 +62,15 @@ const fragmentShader = `
   void main() {
     vec2 screenUV = (vUv - 0.5) * 2.0;
     
+    // Barrel distortion for a subtle lens effect
     float radius = length(screenUV);
     float distortion = 1.0 - 0.08 * radius * radius;
     vec2 distortedUV = screenUV * distortion;
     
+    // Fade out at extreme edges
     float fade = 1.0 - smoothstep(1.2, 1.8, radius);
     
+    // Convert to world coordinates and apply aspect correction
     float aspectRatio = uResolution.x / uResolution.y;
     vec2 worldCoord = distortedUV;
     worldCoord.x *= aspectRatio;
@@ -69,10 +78,12 @@ const fragmentShader = `
     worldCoord *= uZoom;
     worldCoord += uOffset;
     
+    // Determine cell position and UVs within the cell
     vec2 cellPos = worldCoord / uCellSize;
     vec2 cellId = floor(cellPos);
     vec2 cellUV = fract(cellPos);
     
+    // Distort mouse coordinates for interaction
     vec2 mouseScreenUV = (uMousePos / uResolution) * 2.0 - 1.0;
     mouseScreenUV.y = -mouseScreenUV.y;
     float mouseRadius = length(mouseScreenUV);
@@ -87,25 +98,30 @@ const fragmentShader = `
     vec2 mouseCellPos = mouseWorldCoord / uCellSize;
     vec2 mouseCellId = floor(mouseCellPos);
     
+    // Calculate hover effect based on mouse proximity to cells
     vec2 cellCenter = cellId + 0.5;
     vec2 mouseCellCenter = mouseCellId + 0.5;
     float cellDistance = length(cellCenter - mouseCellCenter);
     float hoverIntensity = 1.0 - smoothstep(0.0, 1.5, cellDistance);
     bool isHovered = hoverIntensity > 0.0 && uMousePos.x > 0.0;
     
+    // Background color with optional hover effect
     vec3 backgroundColor = uBackgroundColor;
     if (isHovered) {
       backgroundColor = mix(uBackgroundColor, uHoverColor, hoverIntensity * 0.3);
     }
     
+    // Image sampling from the atlas
     float imageBorder = 0.08;
     float imageSize = 1.0 - imageBorder * 2.0;
     vec2 imageUV = (cellUV - imageBorder) / imageSize;
     
+    // Smooth image edges
     float smoothAmount = 0.01;
     vec2 imageMask = smoothstep(-smoothAmount, smoothAmount, imageUV) *
                      smoothstep(-smoothAmount, smoothAmount, 1.0 - imageUV);
     
+    // Define visible area for images
     bool inImageArea = imageMask.x * imageMask.y > 0.5 && 
                        imageUV.x >= 0.0 && imageUV.x <= 1.0 && 
                        imageUV.y >= 0.65 && imageUV.y <= 1.0;
@@ -151,6 +167,7 @@ const fragmentShader = `
       }
     }
     
+    // Grid effect
     float gridThickness = 0.015;
     float gridMask = smoothstep(gridThickness, gridThickness + 0.01, cellUV.x) *
                      smoothstep(gridThickness, gridThickness + 0.01, cellUV.y) *
@@ -189,6 +206,7 @@ function InfiniteShaderGrid({ onDragChange }) {
     const [mousePos, setMousePos] = useState(new THREE.Vector2(-1, -1));
 
     const textures = useTexture(PROJECTS.map(p => p.url));
+    console.log("🚀 ~ InfiniteShaderGrid ~ textures:", textures)
 
     const { imageAtlas, textAtlas } = useMemo(() => {
         const atlasSize = Math.ceil(Math.sqrt(PROJECTS.length));
@@ -325,23 +343,27 @@ function InfiniteShaderGrid({ onDragChange }) {
     }, [gl, onDragChange]);
 
     useFrame(() => {
+        // Ensure mesh and both atlases are ready before updating uniforms
         if (meshRef.current && imageAtlas && textAtlas) {
+            // When not dragging, apply inertial scrolling (velocity) to the offset
             if (!isDragging.current) {
-                scrollOffset.current.x += velocity.current.x;
-                scrollOffset.current.y += velocity.current.y;
-                velocity.current.multiplyScalar(0.92);
+                scrollOffset.current.x += velocity.current.x; // move horizontally by velocity
+                scrollOffset.current.y += velocity.current.y; // move vertically by velocity
+                velocity.current.multiplyScalar(0.92); // damping to slow momentum over time
             }
 
+            // Smoothly interpolate zoom towards targetZoom for visual feedback while dragging
             currentZoom.current += (targetZoom.current - currentZoom.current) * 0.1;
 
-            meshRef.current.material.uniforms.uOffset.value.copy(scrollOffset.current);
-            meshRef.current.material.uniforms.uResolution.value.set(size.width, size.height);
-            meshRef.current.material.uniforms.uMousePos.value.copy(mousePos);
-            meshRef.current.material.uniforms.uImageAtlas.value = imageAtlas;
-            meshRef.current.material.uniforms.uTextAtlas.value = textAtlas;
-            meshRef.current.material.uniforms.uTextureCount.value = PROJECTS.length;
-            meshRef.current.material.uniforms.uZoom.value = currentZoom.current;
-            meshRef.current.material.uniforms.uCellSize.value = 0.8;
+            // Update shader uniforms every frame
+            meshRef.current.material.uniforms.uOffset.value.copy(scrollOffset.current); // world offset for tiling
+            meshRef.current.material.uniforms.uResolution.value.set(size.width, size.height); // screen resolution
+            meshRef.current.material.uniforms.uMousePos.value.copy(mousePos); // pointer position in pixels
+            meshRef.current.material.uniforms.uImageAtlas.value = imageAtlas; // baked image atlas texture
+            meshRef.current.material.uniforms.uTextAtlas.value = textAtlas; // baked text atlas texture
+            meshRef.current.material.uniforms.uTextureCount.value = PROJECTS.length; // how many textures in atlas
+            meshRef.current.material.uniforms.uZoom.value = currentZoom.current; // current zoom level
+            meshRef.current.material.uniforms.uCellSize.value = 0.8; // size of each gallery cell in world units
         }
     });
 
@@ -358,7 +380,7 @@ function Effects({ isDragging }) {
         <EffectComposer>
             <Vignette
                 offset={0.35}
-                darkness={0.6}
+                darkness={0.8}
                 eskil={false}
                 blendFunction={BlendFunction.NORMAL}
             />
